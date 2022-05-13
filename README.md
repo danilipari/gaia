@@ -1,4 +1,4 @@
-# glados
+# Gaia With GLaDOS
 
 ## Project setup
 ```

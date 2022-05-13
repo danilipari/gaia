@@ -1,20 +1,56 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <!-- <HelloWorld :msg="'Welcome to ' + store.state.title + ' App'"/> -->
+    <!-- {{ list }} -->
+  <nav class="bg-light" v-if="logged">
+    <navbar-app></navbar-app>
+  </nav>
+  <div class="d-flex">
+    <aside v-if="logged">
+      <sidebar-app></sidebar-app>
+    </aside>
+    <main class="container-fluid">
+      <router-view></router-view>
+    </main>
+  </div>
 </template>
 
-<script>
-import HelloWorld from './components/HelloWorld.vue'
+<script lang="ts">
+import HelloWorld from './components/HelloWorld.vue';
+import SidebarApp from '@/components/shared/SidebarApp.vue'
+import NavbarApp from '@/components/shared/NavbarApp.vue'
+import { defineComponent, inject } from 'vue';
 
-export default {
+export default defineComponent({
   name: 'App',
   components: {
-    HelloWorld
-  }
-}
+    SidebarApp,
+    NavbarApp
+  },
+  setup(props, context) {
+    const store = inject('store');
+
+    const profilePic: string = 'https://avatars.githubusercontent.com/u/64545085';
+
+    const random = [Math.floor(Math.random()* 12)];
+    const list: Array<object> = Array(random[0]).fill('').map((el: string, index: number) => ({"name": 'Element-' + index, "index": index}));
+
+    const logged: boolean = localStorage.getItem('user') ? true : false;
+
+    console.log(localStorage.getItem('user'), 'user')
+
+    // console.log(store, 'store');
+
+    return {
+      store,
+      list,
+      logged,
+      profilePic
+    };
+  },
+});
 </script>
 
-<style>
+<style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -22,5 +58,18 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  height: 100vh;
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  li {
+    display: inline-block;
+    margin: 0 10px;
+  }
+  a {
+    color: #42b983;
+  }
 }
 </style>

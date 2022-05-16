@@ -9,11 +9,17 @@
         :to="item.path"
         v-for="(item, index) in list"
         :key="index"
+        v-slot="{ href, isActive }"
         class="text-decoration-none"
-      >
-        <div class="nav nav-pills flex-column mb-auto rounded">
-          <a :href="href" @click="navigate" class="nav-link link-dark">
+        ><!-- route, isActive, isExactActive -->
+        <div :class="'nav nav-pills flex-column mb-auto rounded'">
+          <a
+            :href="href"
+            @click="navigate"
+            :class="'nav-link link-dark ' + (isActive ? 'active-link' : '')"
+          >
             {{ item.name }}
+            <!-- {{ isActive }} -->
           </a>
         </div>
       </router-link>
@@ -42,7 +48,7 @@ export default defineComponent({
         .map((el: string, index: number) => ({
           name: "Element-" + index,
           index: index,
-          path: "/test",
+          path: "/test-" + index,
         })),
     ];
 

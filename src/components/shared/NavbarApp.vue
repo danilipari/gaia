@@ -22,7 +22,7 @@
           <div class="dropdown">
             <a
               href="#"
-              class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle"
+              class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle p-2"
               id="dropdownUser2"
               data-bs-toggle="dropdown"
               aria-expanded="false"
@@ -36,21 +36,16 @@
               />
               <strong>Dani</strong>
             </a>
-            <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
-              <li><a class="dropdown-item" href="#">New project...</a></li>
+            <ul
+              class="dropdown-menu text-small shadow py-3"
+              aria-labelledby="dropdownUser2"
+            >
               <li><a class="dropdown-item" href="#">Settings</a></li>
-              <li><a class="dropdown-item" href="#">Profile</a></li>
               <li><hr class="dropdown-divider" /></li>
-              <li><a class="dropdown-item" href="#">Sign out</a></li>
+              <li><a class="dropdown-item" @click="logout()">Logout</a></li>
             </ul>
           </div>
         </div>
-
-        <!-- <div class="text-end">
-          <button type="button" :class="'btn btn-outline-warning me-2'" @click="logout()">
-            {{ "Logout" }}
-          </button>
-        </div> -->
       </div>
     </div>
   </header>

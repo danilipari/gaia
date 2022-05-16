@@ -1,5 +1,5 @@
 <template>
-  <div class="container w-25">
+  <div id="login" class="container w-25 centered">
     <button class="w-100 btn btn-lg btn-primary py-3" type="submit">Login with Azure</button>
     <hr>
     <div class="form-floating">
@@ -17,6 +17,9 @@
     <button class="w-100 btn btn-lg btn-outline-dark" type="button" @click="login()">Login</button>
   </div>
 </template>
+<style lang="scss" scoped>
+/*  */
+</style>
 <script lang="ts">
 import { defineComponent, inject, Ref, ref } from 'vue';
 

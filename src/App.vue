@@ -2,7 +2,7 @@
   <!-- <HelloWorld :msg="'Welcome to ' + store.state.title + ' App'"/> -->
     <!-- {{ list }} -->
   <nav class="bg-light" v-if="logged">
-    <navbar-app></navbar-app>
+    <navbar-app :logged="logged"></navbar-app>
   </nav>
   <div class="d-flex">
     <aside v-if="logged">
@@ -51,13 +51,12 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
+@import "./assets/scss/__layout.scss";
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Poppins', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
   height: 100vh;
 
   ul {

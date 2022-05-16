@@ -1,18 +1,20 @@
 <template>
-  <header class="p-3 bg-dark text-white">
-    <div class="container">
-      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-        <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
-          <font-awesome-icon :icon="['fas', 'home']" class="fa-2x" />
+  <header class="p-3">
+    <div class="container-fluid">
+      <div class="d-flex flex-wrap align-items-center justify-content-between">
+        <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-decoration-none">
+          <font-awesome-icon :icon="['fas', 'passport']" class="fa-2x" />
         </a>
 
-        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-          <input type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">
+        <form class="col-8 d-flex">
+          <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
+          <span class="input-group-text" @click="search()">
+            <font-awesome-icon :icon="['fas', 'search']" />
+          </span>
         </form>
 
         <div class="text-end">
-          <button type="button" class="btn btn-outline-light me-2">Login</button>
-          <button type="button" class="btn btn-warning">Logout</button>
+          <button type="button" :class="'btn btn-outline-warning me-2'" @click="logout()"> {{ 'Logout' }}</button>
         </div>
       </div>
     </div>
@@ -24,6 +26,13 @@ import { defineComponent, inject } from 'vue';
 
 export default defineComponent({
   name: 'NavbarApp',
+  props: {
+    logged: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+  },
   components: {
     /* HelloWorld, */
   },
@@ -32,8 +41,14 @@ export default defineComponent({
 
     // console.log(store, 'store');
 
+    function logout() {
+      localStorage.removeItem('user');
+      window.location.reload();
+    }
+
     return {
       store,
+      logout
     };
   },
 });

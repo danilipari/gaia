@@ -8,7 +8,8 @@ const store = createStore({
     user: user
   },
   state: {
-    title: "Gaia"
+    title: "Gaia",
+    profilePic: "https://avatars.githubusercontent.com/u/64545085",
   }
 });
 

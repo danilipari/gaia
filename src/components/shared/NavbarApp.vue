@@ -8,7 +8,7 @@
 
         <form class="col-8 d-flex">
           <input
-            type="search"
+            type="text"
             class="form-control"
             placeholder="Search..."
             aria-label="Search"

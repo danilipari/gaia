@@ -1,6 +1,17 @@
 <template>
-  <aside id="sidebar">
-    <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px">
+  <div id="sidebar">
+    <div
+      class="d-flex flex-column flex-shrink-0 p-3 bg-light"
+      :style="'width: ' + width + 'px'"
+      v-if="!menu && visible"
+    >
+      #other
+    </div>
+    <div
+      class="d-flex flex-column flex-shrink-0 p-3 bg-light"
+      :style="'width: ' + width + 'px'"
+      v-if="menu && visible"
+    >
       <a href="/" class="text-decoration-none mx-auto">
         <span class="fs-3">GAIA</span>
       </a>
@@ -24,7 +35,7 @@
         </div>
       </router-link>
     </div>
-  </aside>
+  </div>
 </template>
 
 <script lang="ts">
@@ -32,6 +43,23 @@ import { defineComponent, inject } from "vue";
 
 export default defineComponent({
   name: "SidebarApp",
+  props: {
+    visible: {
+      type: Boolean,
+      required: true,
+      default: true,
+    },
+    menu: {
+      type: Boolean,
+      required: true,
+      default: true,
+    },
+    width: {
+      type: Number,
+      required: true,
+      default: 250,
+    },
+  },
   components: {
     /* HelloWorld, */
   },
@@ -39,6 +67,8 @@ export default defineComponent({
     const store = inject("store");
 
     const profilePic: string = "https://avatars.githubusercontent.com/u/64545085";
+
+    console.log(props, "props");
 
     const random = [Math.floor(Math.random() * 15)];
     const list: Array<object> = [

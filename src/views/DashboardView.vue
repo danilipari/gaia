@@ -3,7 +3,7 @@
 
   <div class="container-fluid">
     <div class="d-flex text-center">
-      <card-link :title="'Rules'" :link="'/rules'" :col="6"></card-link>
+      <card-link :title="'Rules: ' + rules.length" :link="'/rules'" :col="6"></card-link>
       <div class="col-6 p-4">
         <div class="card">Generate / Export Engine - {{ 0 }}</div>
       </div>
@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, inject } from "vue";
+import { defineComponent, inject, Ref, ref } from "vue";
 import { Engine } from "json-rules-engine";
 import CardLink from "@/components/CardLink.vue";
 
@@ -50,6 +50,10 @@ export default defineComponent({
       },
     };
 
+    const xx: any = localStorage.getItem("rules");
+
+    const rules: Ref<any> = ref(JSON.parse(xx));
+
     const startDef: object = {
       name: "init",
       attributes: [],
@@ -81,6 +85,7 @@ export default defineComponent({
 
     return {
       engine,
+      rules,
     };
   },
 });

@@ -1,11 +1,12 @@
 <template>
-  <div id="rules" class="container-fluid d-flex rounded py-4 text-success">
+  <div id="rules" class="container-fluid d-flex rounded py-4">
+    {{ $store.state.rule.ruleSelected }}
     <div :class="ruleSelected === null ? 'col' : 'col-4'">
       <h4>Rules</h4>
       <div class="goup-list rounded p-1">
         <div
           :class="
-            'goup-list-item border rounded p-2 mb-2 text-center ' +
+            'goup-list-item border rounded p-2 shadow-sm mb-2 text-center title ' +
             (ruleSelected !== null ? 'w-100' : 'w-25')
           "
           @click="addRule()"
@@ -15,13 +16,13 @@
         <div
           :class="
             'goup-list-item border rounded p-2 mb-2 ' +
-            (ruleSelected === index ? 'active' : '')
+            (ruleSelected === index ? 'active shadow' : '')
           "
           v-for="(rule, index) in rules"
           :key="index"
-          @click="ruleSelected = index"
+          @click="setIndexRule(index)"
         >
-          {{ index }} {{ rule.name }} - {{ rule.timestamp }}
+          {{ rule.name }} - {{ timestampToDate(rule.timestamp, true) }}
         </div>
       </div>
     </div>
@@ -31,12 +32,12 @@
       @dblclick="showJSONView()"
     >
       <div class="d-flex justify-content-between">
-        <h4>Info of Rule {{ rules[ruleSelected] }}</h4>
-        <h5>{{ rules[ruleSelected].timestamp }}</h5>
+        <h4>Info of Rule</h4>
+        <h5>{{ timestampToDate(rules[ruleSelected].timestamp, true) }}</h5>
       </div>
       <!-- rules[ruleSelected].uid.split("-")[0] -->
 
-      <div class="p-2">
+      <div class="pt-0 p-2">
         <div class="form-group">
           <label for="name">Name: </label>
           <input
@@ -45,8 +46,7 @@
             class="form-control"
             v-model="rules[ruleSelected].name"
           />
-        </div>
-        <div class="form-group">
+          <!--  -->
           <label for="name">Description: </label>
           <input
             name="name"
@@ -54,35 +54,84 @@
             class="form-control"
             v-model="rules[ruleSelected].description"
           />
+          <!--  -->
+          <div class="d-flex text-center mt-3 pt-4">
+            <div class="col-4 p-1 py-2">
+              <router-link to="/attributes">
+                <div class="card d-flex shadow-sm">
+                  <div class="fs-5 my-auto d-flex mx-auto">
+                    <font-awesome-icon :icon="['fas', 'list']" class="icon my-auto" />
+                    <span>&nbsp;</span>
+                    <p class="mb-0 my-auto">Attributes:</p>
+                    <span>&nbsp;</span>
+                    <p class="mb-0 my-auto">
+                      {{ rules[ruleSelected].attributes.length }}
+                    </p>
+                  </div>
+                </div>
+              </router-link>
+            </div>
+
+            <div class="col-4 p-1 py-2">
+              <router-link to="/decisions">
+                <div class="card d-flex shadow-sm">
+                  <div class="fs-5 my-auto d-flex mx-auto">
+                    <font-awesome-icon :icon="['fas', 'question']" class="icon my-auto" />
+                    <span>&nbsp;</span>
+                    <p class="mb-0 my-auto">Decisions:</p>
+                    <span>&nbsp;</span>
+                    <p class="mb-0 my-auto">{{ rules[ruleSelected].decisions.length }}</p>
+                  </div>
+                </div>
+              </router-link>
+            </div>
+
+            <div class="col-4 p-1 py-2">
+              <router-link to="/permissions">
+                <div class="card d-flex shadow-sm">
+                  <div class="fs-5 my-auto d-flex mx-auto">
+                    <font-awesome-icon :icon="['fas', 'lock']" class="icon my-auto" />
+                    <span>&nbsp;</span>
+                    <p class="mb-0 my-auto">Permissions:</p>
+                    <span>&nbsp;</span>
+                    <p class="mb-0 my-auto">
+                      {{ rules[ruleSelected].permissions.length }}
+                    </p>
+                  </div>
+                </div>
+              </router-link>
+            </div>
+          </div>
         </div>
       </div>
     </div>
     <div v-if="showJSON" class="col ps-2">
-      <div class="card p-2">
+      <div class="border rounded p-2">
         <div class="d-flex justify-content-between">
           <p class="my-auto me-2">Actions:</p>
           <div class="d-flex">
-            <button class="btn btn-success me-2" @click="actionJson('in')">
+            <button class="btn btn-success me-2 shadow" @click="actionJson('in')">
               <font-awesome-icon :icon="['fas', 'plus']" class="fa-1x" />
               <!-- <i class="fa-solid fa-rectangle-history-circle-plus"></i> -->
             </button>
-            <button class="btn btn-success me-2" @click="actionJson('out')">
+            <button class="btn btn-success me-2 shadow" @click="actionJson('out')">
               <font-awesome-icon :icon="['fas', 'minus']" class="fa-1x" />
             </button>
           </div>
           <div>
-            <button class="btn btn-outline-success" @click="showJSONView()">Close</button>
+            <button class="btn btn-outline-success shadow" @click="showJSONView()">
+              Close
+            </button>
           </div>
         </div>
       </div>
       <Codemirror
         v-model="code"
+        class="shadow"
         :style="'font-size: ' + fs + 'rem'"
         :options="cmOptions"
         :theme="'dracula'"
-        placeholder="Yor JSON here!"
-        :height="725"
-        @change="change"
+        @change="onChange"
       />
     </div>
   </div>
@@ -90,7 +139,8 @@
 <script lang="ts">
 import { v4 as uuidv4 } from "uuid";
 import _ from "lodash";
-import { computed, defineComponent, inject, Ref, ref } from "vue";
+import { computed, defineComponent, inject, Ref, ref, ComputedRef } from "vue";
+import { timestampToDate } from "../components/shared/utils";
 
 import Codemirror from "codemirror-editor-vue3";
 import "codemirror/mode/javascript/javascript.js";
@@ -111,33 +161,31 @@ export default defineComponent({
   setup(props, context) {
     const store: any = inject("store");
 
-    let code: string = "{}";
+    const code = ref(`
+      var i = 0;
+      for (; i < 9; i++) {
+        console.log(i);
+        // more statements
+      }`);
     const test: string = JSON.stringify({
       title: "eee",
     });
 
     // const rulesList = computed(() => rules.value);
 
+    const ruleSelected: ComputedRef<any> = computed(() => store.state.rule.ruleSelected);
+
     let rules: Ref<Array<Rule>> = ref([]);
 
     let fs: Ref = ref(1.2);
     let darkTheme: Ref = ref(true);
     let showJSON: Ref = ref(false);
-    let ruleSelected: Ref = ref(null);
+    // let ruleSelected: Ref = ref(null);
+    let search: Ref = ref("");
 
     function showJSONView() {
       showJSON.value = !showJSON.value;
     }
-
-    let cmOptions = {
-      mode: "text/javascript", // Language mode
-      theme: "dracula", // Theme
-      lineNumbers: true, // Show line number
-      smartIndent: true, // Smart indent
-      indentUnit: 4, // The smart indent unit is 2 spaces in length
-      foldGutter: true, // Code folding
-      styleActiveLine: true, // Display the style of the selected row
-    };
 
     function actionJson(type: string) {
       if (type === "in") {
@@ -164,7 +212,7 @@ export default defineComponent({
           timestamp: _.now(),
           attributes: [],
           decisions: [],
-          permission: [],
+          permissions: [],
         },
       ];
 
@@ -181,7 +229,7 @@ export default defineComponent({
           timestamp: _.now(),
           attributes: [],
           decisions: [],
-          permission: [],
+          permissions: [],
         },
         {
           name: "Rule 2",
@@ -190,27 +238,54 @@ export default defineComponent({
           timestamp: _.now(),
           attributes: [],
           decisions: [],
-          permission: [],
+          permissions: [],
         },
       ];
       rules.value = rulesTemp;
     }
 
+    const mapActions = () => {
+      const _store = store;
+      return Object.fromEntries(
+        Object.keys(_store._actions).map((action) => [
+          action,
+          (value: any) => store.dispatch(action, value),
+        ])
+      );
+    };
+
+    function setIndexRule(index: number) {
+      store.state.rule.ruleSelected = index;
+      // store.actions.rules.setRule("SET_RULE", index);
+    }
+
     return {
       store,
       code,
+      cmOptions: {
+        mode: "text/javascript", // Language mode
+        theme: "dracula", // Theme
+        lineNumbers: true, // Show line number
+        smartIndent: true, // Smart indent
+        indentUnit: 2, // The smart indent unit is 2 spaces in length
+        foldGutter: true, // Code folding
+        styleActiveLine: true, // Display the style of the selected row
+      },
       test,
       fs,
       darkTheme,
-      cmOptions,
       showJSON,
       rules,
       ruleSelected,
+      search,
       /* rulesList, */
       showJSONView,
       actionJson,
       addRule,
       setRules,
+      timestampToDate,
+      setIndexRule,
+      onChange(val: any, cm: any) {},
     };
   },
 });

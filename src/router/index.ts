@@ -1,6 +1,9 @@
 import { createWebHistory, createRouter } from "vue-router";
 import DashboardView from "@/views/DashboardView.vue";
 import RulesView from "@/views/RulesView.vue";
+import AttributesView from "@/views/AttributesView.vue";
+import DecisionsView from "@/views/DecisionsView.vue";
+import PermissionsView from "@/views/PermissionsView.vue";
 import LoginView from "@/views/LoginView.vue";
 import NotFoundView from "@/views/NotFoundView.vue";
 
@@ -23,6 +26,24 @@ export const routes = [
     name: "rules",
     meta: { title: "Rules" },
     component: RulesView,
+  },
+  {
+    path: "/attributes",
+    name: "attributes",
+    meta: { title: "Attributes" },
+    component: AttributesView,
+  },
+  {
+    path: "/decisions",
+    name: "decisions",
+    meta: { title: "Decisions" },
+    component: DecisionsView,
+  },
+  {
+    path: "/permissions",
+    name: "permissions",
+    meta: { title: "Permissions" },
+    component: PermissionsView,
   },
   {
     path: "/login",

@@ -50,7 +50,7 @@ export interface Rule {
 
   uid?: string;
   description?: string;
-  permission?: Array<any>;
+  permissions?: Array<any>;
 }
 
 export interface Attribute {

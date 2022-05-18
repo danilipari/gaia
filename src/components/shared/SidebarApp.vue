@@ -21,7 +21,7 @@
         v-for="(item, index) in list"
         :key="index"
         v-slot="{ href, isActive }"
-        class="text-decoration-none"
+        class="text-decoration-none shadow-sm mb-2"
         ><!-- route, isActive, isExactActive -->
         <div :class="'nav nav-pills flex-column mb-auto rounded'">
           <a

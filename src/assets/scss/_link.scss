@@ -8,17 +8,17 @@
     margin: 0 10px;
   }
   a {
-    color: #42b983;
+    color: $primary-color;
 
     &:hover {
-      background-color: #42b983;
+      background-color: $primary-color;
       color: #ffffff;
       border-radius: 4px;
     }
   }
 
   .active-link {
-    background-color: #42b983;
+    background-color: $primary-color;
     color: #ffffff;
   }
 }

@@ -7,10 +7,10 @@
       <sidebar-app
         :visible="structure.sidebar_left"
         :menu="true"
-        :width="320"
+        :width="220"
       ></sidebar-app>
     </aside>
-    <main class="container-fluid" v-if="structure.main && logged">
+    <main class="container-fluid" v-if="structure.main">
       <router-view></router-view>
     </main>
     <aside v-if="logged">
@@ -45,8 +45,6 @@ export default defineComponent({
       .map((el: string, index: number) => ({ name: "Element-" + index, index: index }));
 
     const logged: boolean = localStorage.getItem("user") ? true : false;
-
-    console.log(localStorage.getItem("user"), "user");
 
     const structure: object = {
       navbar: true,

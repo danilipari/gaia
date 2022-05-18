@@ -1,0 +1,11 @@
+#rules {
+  .goup-list {
+    & .goup-list-item {
+      &:hover, &.active {
+        background-color: $primary-color;
+        color: white;
+        cursor: pointer;
+      }
+    }
+  }
+}

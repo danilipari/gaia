@@ -1,21 +1,30 @@
 <template>
-  <div class="alert alert-warning" role="alert">DashboardView - {{ list }}</div>
+  <div class="alert alert-success" role="success">DashboardView</div>
 
-  <!-- <pre>{{ engine }}</pre> -->
+  <div class="container-fluid">
+    <div class="d-flex text-center">
+      <card-link :title="'Rules'" :link="'/rules'" :col="6"></card-link>
+      <div class="col-6 p-4">
+        <div class="card">Generate / Export Engine - {{ 0 }}</div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, inject } from "vue";
 import { Engine } from "json-rules-engine";
+import CardLink from "@/components/CardLink.vue";
 
 export default defineComponent({
   name: "DashboardView",
+  components: {
+    CardLink,
+  },
   created() {
-    if (!localStorage.getItem("user")) this.$router.push("/login");
+    !localStorage.getItem("user") && this.$router.push("/login");
   },
   setup(props, context) {
-    const store: any = inject("store");
-
     let Rule = require("json-rules-engine").Rule;
 
     const engine: any = new Engine();
@@ -71,7 +80,6 @@ export default defineComponent({
     /* cosnt engine = engine.addRule(microsoftRule) */
 
     return {
-      store,
       engine,
     };
   },

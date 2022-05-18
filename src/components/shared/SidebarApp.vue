@@ -68,11 +68,8 @@ export default defineComponent({
 
     const profilePic: string = "https://avatars.githubusercontent.com/u/64545085";
 
-    console.log(props, "props");
-
     const random = [Math.floor(Math.random() * 15)];
-    const list: Array<object> = [
-      { name: "Dashboard", index: 0, path: "/dashboard" },
+    const arrRandom: Array<object> = [
       ...Array(random[0])
         .fill("")
         .map((el: string, index: number) => ({
@@ -80,6 +77,11 @@ export default defineComponent({
           index: index,
           path: "/test-" + index,
         })),
+    ];
+
+    const list: Array<object> = [
+      { name: "Dashboard", index: 0, path: "/dashboard" },
+      { name: "Rules", index: 0, path: "/rules" },
     ];
 
     console.log(localStorage.getItem("user"), "user");

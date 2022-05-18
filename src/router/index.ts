@@ -1,8 +1,8 @@
 import { createWebHistory, createRouter } from "vue-router";
 import DashboardView from "@/views/DashboardView.vue";
+import RulesView from "@/views/RulesView.vue";
 import LoginView from "@/views/LoginView.vue";
 import NotFoundView from "@/views/NotFoundView.vue";
-import store from '@/store/index';
 
 export const routes = [
   {
@@ -17,6 +17,12 @@ export const routes = [
     name: "dashboard",
     meta: { title: "Dashboard" },
     component: DashboardView,
+  },
+  {
+    path: "/rules",
+    name: "rules",
+    meta: { title: "Rules" },
+    component: RulesView,
   },
   {
     path: "/login",
@@ -35,9 +41,9 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach(async (to, from) => {
+/* router.beforeEach(async (to, from) => {
   const log = JSON.parse(JSON.stringify(store.state));
   console.log(localStorage.getItem('user'), from.path, to.path)
-})
+}) */
 
 export default router;

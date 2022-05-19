@@ -4,7 +4,7 @@
   <div class="container-fluid">
     <div class="d-flex text-center">
       <card-link
-        :title="'Rules: ' + (rules.length ? rules.length : 0)"
+        :title="'Rules: ' + (rules?.length ? rules.length : 0)"
         :link="'/rules'"
         :col="6"
       ></card-link>

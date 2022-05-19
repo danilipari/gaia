@@ -3,7 +3,11 @@
 
   <div class="container-fluid">
     <div class="d-flex text-center">
-      <card-link :title="'Rules: ' + rules.length" :link="'/rules'" :col="6"></card-link>
+      <card-link
+        :title="'Rules: ' + (rules.length ? rules.length : 0)"
+        :link="'/rules'"
+        :col="6"
+      ></card-link>
       <div class="col-6 p-4">
         <div class="card">Generate / Export Engine - {{ 0 }}</div>
       </div>
@@ -80,7 +84,7 @@ export default defineComponent({
 
     // engine.addFact("speed-of-light", 299792458);
 
-    console.log(engine, "xxxx");
+    // // console.log(engine, "xxxx");
     /* cosnt engine = engine.addRule(microsoftRule) */
 
     return {

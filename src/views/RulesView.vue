@@ -241,7 +241,12 @@ export default defineComponent({
           permissions: [],
         },
       ];
-      rules.value = rulesTemp;
+      if (!localStorage.getItem("rules")) {
+        rules.value = rulesTemp;
+      } else {
+        const xxx: any = localStorage.getItem("rules");
+        rules.value = JSON.parse(xxx);
+      }
     }
 
     const mapActions = () => {

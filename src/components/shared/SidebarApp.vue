@@ -12,10 +12,10 @@
       :style="'width: ' + width + 'px'"
       v-if="menu && visible"
     >
-      <a href="/" class="text-decoration-none mx-auto">
+      <!-- <a href="/" class="text-decoration-none mx-auto">
         <span class="fs-3">GAIA</span>
       </a>
-      <hr />
+      <hr /> -->
       <router-link
         :to="item.path"
         v-for="(item, index) in list"

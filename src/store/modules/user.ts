@@ -1,5 +1,6 @@
 import { createStore } from "vuex";
 
+
 const user = createStore({
   state: {
     title: String("USER"),

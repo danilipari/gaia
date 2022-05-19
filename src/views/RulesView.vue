@@ -170,9 +170,6 @@ export default defineComponent({
     const test: string = JSON.stringify({
       title: "eee",
     });
-
-    // const rulesList = computed(() => rules.value);
-
     const ruleSelected: ComputedRef<any> = computed(() => store.state.rule.ruleSelected);
 
     let rules: Ref<Array<Rule>> = ref([]);
@@ -249,7 +246,7 @@ export default defineComponent({
       }
     }
 
-    const mapActions = () => {
+    /*  const mapActions = () => {
       const _store = store;
       return Object.fromEntries(
         Object.keys(_store._actions).map((action) => [
@@ -257,7 +254,7 @@ export default defineComponent({
           (value: any) => store.dispatch(action, value),
         ])
       );
-    };
+    }; */
 
     function setIndexRule(index: number) {
       store.state.rule.ruleSelected = index;

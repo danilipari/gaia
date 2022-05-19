@@ -1,5 +1,5 @@
 <template>
-  <div class="alert alert-success" role="success">DashboardView</div>
+  <div class="alert alert-success mt-3 p-5" role="success">DashboardView</div>
 
   <div class="container-fluid">
     <div class="d-flex text-center">

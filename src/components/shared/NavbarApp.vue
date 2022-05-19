@@ -2,9 +2,15 @@
   <header class="px-3 py-2">
     <div class="container-fluid">
       <div class="d-flex flex-wrap align-items-center justify-content-between">
-        <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-decoration-none">
+        <img
+          class="img-fluid"
+          src="../../assets/img/logo.png"
+          alt="logo"
+          style="width: 60px"
+        />
+        <!-- <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-decoration-none">
           <font-awesome-icon :icon="['fas', 'passport']" class="fa-2x" />
-        </a>
+        </a> -->
 
         <form class="col-8 d-flex">
           <input

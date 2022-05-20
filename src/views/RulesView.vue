@@ -1,12 +1,12 @@
 <template>
   <div id="rules" class="container-fluid d-flex rounded py-4">
-    {{ $store.state.rule.ruleSelected }}
+    <!-- {{ $store.state.rule.ruleSelected }} -->
     <div :class="ruleSelected === null ? 'col' : 'col-4'">
       <h4>Rules</h4>
-      <div class="goup-list rounded p-1">
+      <div class="group-list rounded p-1">
         <div
           :class="
-            'goup-list-item border rounded p-2 shadow-sm mb-2 text-center title ' +
+            'group-list-item border rounded p-2 shadow-sm mb-2 text-center title ' +
             (ruleSelected !== null ? 'w-100' : 'w-25')
           "
           @click="addRule()"
@@ -15,7 +15,7 @@
         </div>
         <div
           :class="
-            'goup-list-item border rounded p-2 mb-2 ' +
+            'group-list-item border rounded p-2 mb-2 ' +
             (ruleSelected === index ? 'active shadow' : '')
           "
           v-for="(rule, index) in rules"

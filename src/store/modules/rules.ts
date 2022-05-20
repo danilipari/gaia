@@ -3,6 +3,7 @@ import { createStore } from "vuex";
 const rules = createStore({
   state: {
     ruleSelected: Number(null),
+    attributeSelected: Number(null),
   },
   mutations: {
     SET_RULE(state, index: number) {

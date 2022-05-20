@@ -1,4 +1,5 @@
-import {createApp} from 'vue'
+import {createApp} from 'vue';
+import Toast, { PluginOptions } from "vue-toastification";
 import App from "./App.vue";
 import store from './store/index';
 import router from './router/index';
@@ -12,6 +13,19 @@ import { GlobalCmComponent } from "codemirror-editor-vue3";
 
 library.add(faPhone, faUser, faFlag, fas, fab, far);
 
+const optionsToast: PluginOptions = {
+  transition: "Vue-Toastification__slideBlurred",
+  maxToasts: 25,
+  newestOnTop: true,
+  timeout: 2500,
+  closeOnClick: true,
+  pauseOnFocusLoss: true,
+  pauseOnHover: true,
+  draggable: true,
+  draggablePercent: 0.6,
+};
+
+import "vue-toastification/dist/index.css";
 import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap"
 
@@ -27,6 +41,7 @@ app.use(_);
 app.use(store);
 app.use(GlobalCmComponent);
 app.component("font-awesome-icon", FontAwesomeIcon);
+app.use(Toast, optionsToast);
 app.use(router);
 app.mount("#app");
 

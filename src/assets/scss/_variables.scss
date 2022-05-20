@@ -5,3 +5,11 @@ $primary-color: #42b983;
   color: white;
   border-color: white;
 }
+
+.border.border-success {
+  border-color: $primary-color!important;
+}
+
+.text-success {
+  color: $primary-color!important;
+}

@@ -9,3 +9,37 @@
 .title {
   color: $primary-color;
 }
+
+#rules, #attributes {
+  & .group-list {
+    & .group-list-item {
+      &:hover, &.active {
+        background-color: $primary-color;
+        color: white;
+        cursor: pointer;
+      }
+    }
+  }
+
+  & .card {
+    color: white;
+    background-color: $primary-color;
+    height: 75.5px;
+    line-height: 75.5px;
+    cursor: pointer;
+
+    &:hover {
+      color: $primary-color;
+      background-color: white;
+      border: 1px solid $primary-color;
+    }
+  }
+}
+
+.icon {
+  color: $primary-color;
+
+  &:hover {
+    color: #ffffff;
+  }
+}

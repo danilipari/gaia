@@ -55,7 +55,7 @@ export interface Rule {
 
 export interface Attribute {
   name: string;
-  type: string;
+  type: Types;
 
   uid?: string;
   global?: boolean;

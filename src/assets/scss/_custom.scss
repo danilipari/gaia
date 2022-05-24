@@ -6,7 +6,10 @@
   transform: translate(-50%, -50%);
 }
 
-.title {
+.title-success {
+  color: $primary-color;
+}
+.title-danger {
   color: $primary-color;
 }
 

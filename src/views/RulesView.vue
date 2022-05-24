@@ -6,7 +6,7 @@
       <div class="group-list rounded p-1">
         <div
           :class="
-            'group-list-item border rounded p-2 shadow-sm mb-2 text-center title ' +
+            'group-list-item border rounded p-2 shadow-sm mb-2 text-center title-success ' +
             (ruleSelected !== null ? 'w-100' : 'w-25')
           "
           @click="addRule()"
@@ -98,6 +98,24 @@
               </router-link>
             </div>
           </div>
+
+          <div class="group-list px-1 d-flex justify-content-between">
+            <div
+              class="group-list-item border rounded p-2 shadow-sm mb-2 text-center title-success w-50"
+              @click="actionRule('delete')"
+            >
+              <span>&nbsp;</span> Delete rule <span class="ms-2">&nbsp;</span>
+              <font-awesome-icon :icon="['fas', 'save']" class="fa-x" />
+            </div>
+            <span class="mx-1">&nbsp;</span>
+            <div
+              class="group-list-item border rounded p-2 shadow-sm mb-2 text-center title-success w-50"
+              @click="actionRule('save')"
+            >
+              <span>&nbsp;</span> Save rule <span class="ms-2">&nbsp;</span>
+              <font-awesome-icon :icon="['fas', 'save']" class="fa-x" />
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -115,8 +133,15 @@
             </button>
           </div>
           <div>
-            <button class="btn btn-outline-success shadow" @click="showJSONView()">
+            <button
+              class="btn btn-outline-warning shadow py-0 px-2"
+              @click="showJSONView()"
+            >
               Close
+            </button>
+            <span>&nbsp;</span>
+            <button class="btn btn-success shadow py-0 px-2" @click="actionRule('save')">
+              Save
             </button>
           </div>
         </div>
@@ -137,6 +162,7 @@ import { v4 as uuidv4 } from "uuid";
 import _ from "lodash";
 import { computed, defineComponent, inject, Ref, ref, ComputedRef } from "vue";
 import { timestampToDate } from "../components/shared/utils";
+import { useToast } from "vue-toastification";
 
 import Codemirror from "codemirror-editor-vue3";
 import "codemirror/mode/javascript/javascript.js";
@@ -156,16 +182,7 @@ export default defineComponent({
   },
   setup(props, context) {
     const store: any = inject("store");
-
-    const code = ref(`
-      var i = 0;
-      for (; i < 9; i++) {
-        console.log(i);
-        // more statements
-      }`);
-    const test: string = JSON.stringify({
-      title: "eee",
-    });
+    const toast = useToast();
     const ruleSelected: ComputedRef<any> = computed(() => store.state.rule.ruleSelected);
 
     let rules: Ref<Array<Rule>> = ref([]);
@@ -245,15 +262,17 @@ export default defineComponent({
       }
     }
 
-    /*  const mapActions = () => {
-      const _store = store;
-      return Object.fromEntries(
-        Object.keys(_store._actions).map((action) => [
-          action,
-          (value: any) => store.dispatch(action, value),
-        ])
-      );
-    }; */
+    function showAlert() {
+      /* this.$swal("test"); */
+    }
+
+    function actionRule(type: string) {
+      console.log(type, "actionRule");
+
+      showAlert();
+
+      toast.success("Rule save successfully!");
+    }
 
     function setIndexRule(index: number) {
       store.state.rule.ruleSelected = index;
@@ -262,7 +281,6 @@ export default defineComponent({
 
     return {
       store,
-      code,
       cmOptions: {
         mode: "text/javascript", // Language mode
         theme: "dracula", // Theme
@@ -272,7 +290,6 @@ export default defineComponent({
         foldGutter: true, // Code folding
         styleActiveLine: true, // Display the style of the selected row
       },
-      test,
       fs,
       darkTheme,
       showJSON,
@@ -286,6 +303,7 @@ export default defineComponent({
       setRules,
       timestampToDate,
       setIndexRule,
+      actionRule,
       onChange(val: any, cm: any) {},
     };
   },

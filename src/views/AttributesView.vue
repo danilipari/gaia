@@ -7,7 +7,7 @@
         <div class="d-flex justify-content-between px-2">
           <div
             :class="
-              'group-list-item border rounded p-2 shadow-sm mb-2 text-center title ' +
+              'group-list-item border rounded p-2 shadow-sm mb-2 text-center title-success ' +
               (attributeSelected !== null ? 'w-100' : 'w-25')
             "
             @click="goback()"
@@ -17,7 +17,7 @@
           </div>
           <div
             :class="
-              'mx-2 group-list-item border rounded p-2 shadow-sm mb-2 text-center title ' +
+              'mx-2 group-list-item border rounded p-2 shadow-sm mb-2 text-center title-success ' +
               (attributeSelected !== null ? 'w-100' : 'w-25')
             "
             @click="addAttribute()"
@@ -27,7 +27,7 @@
           </div>
           <div
             :class="
-              'group-list-item border rounded p-2 shadow-sm mb-2 text-center title ' +
+              'group-list-item border rounded p-2 shadow-sm mb-2 text-center title-success ' +
               (attributeSelected !== null ? 'w-100' : 'w-25')
             "
             @click="saveAttribute(2)"

@@ -1,6 +1,6 @@
 <template>
   <div class="" style="margin-top: 60px">
-    <h1 class="text-center title">#404</h1>
+    <h1 class="text-center title-success">#404</h1>
   </div>
 
   <div class="d-felx text-center">

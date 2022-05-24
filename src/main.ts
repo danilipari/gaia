@@ -11,7 +11,15 @@ import { far } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { GlobalCmComponent } from "codemirror-editor-vue3";
 
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
+
 library.add(faPhone, faUser, faFlag, fas, fab, far);
+
+const optionsAlert = {
+  confirmButtonColor: '#41b882',
+  cancelButtonColor: '#ff7674',
+};
 
 const optionsToast: PluginOptions = {
   transition: "Vue-Toastification__slideBlurred",
@@ -36,10 +44,10 @@ import _ from 'lodash';
 
 app.config.globalProperties.$store = store
 
-
 app.use(_);
 app.use(store);
 app.use(GlobalCmComponent);
+app.use(VueSweetalert2, optionsAlert);
 app.component("font-awesome-icon", FontAwesomeIcon);
 app.use(Toast, optionsToast);
 app.use(router);

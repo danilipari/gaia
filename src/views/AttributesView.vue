@@ -30,7 +30,7 @@
               'group-list-item border rounded p-2 shadow-sm mb-2 text-center title ' +
               (attributeSelected !== null ? 'w-100' : 'w-25')
             "
-            @click="saveAttribute()"
+            @click="saveAttribute(2)"
           >
             <span>&nbsp;</span> Save all <span class="ms-2">&nbsp;</span>
             <font-awesome-icon :icon="['fas', 'save']" class="fa-x" />
@@ -48,8 +48,16 @@
           <div>
             <div class="d-flex justify-content-between" @click="setIndexAttribute(index)">
               <div class="d-flex justify-content-between">
-                <p class="py-1 px-2 my-auto">{{ attribute.name }} - {{ index }}</p>
-                <p class="border border-success rounded py-1 px-2 my-auto">
+                <p class="py-1 px-2 my-auto">
+                  {{ attribute.name }}
+                </p>
+                <p
+                  :class="
+                    'border border-' +
+                    (attributeSelected !== index ? 'success ' : 'white ') +
+                    'rounded py-1 px-2 my-auto'
+                  "
+                >
                   {{ attribute.type }}
                 </p>
               </div>
@@ -68,7 +76,7 @@
             </div>
             <div
               v-if="accrodionIndex === index"
-              class="bg-white rounded"
+              class="bg-white rounded mt-2"
               style="height: 160px"
             >
               <div class="d-flex justify-content-center pt-3">
@@ -95,7 +103,9 @@
               <div class="d-flex justify-content-end mt-5">
                 <button class="btn btn-outline-success">Remove</button>
                 <span class="mx-2">&nbsp;</span>
-                <button class="btn btn-success me-5">Save</button>
+                <button class="btn btn-success me-5" @click="saveAttribute(1)">
+                  Save
+                </button>
               </div>
             </div>
           </div>
@@ -118,18 +128,18 @@ import { structuredClone, goBack } from "@/components/shared/utils";
 export default defineComponent({
   name: "AttributesView",
   created() {
-    localStorage.getItem("user") && this.$router.push("/attributes");
+    !localStorage.getItem("user") && this.$router.push("/login");
   },
   setup(props, context) {
     const store: any = inject("store");
-
     const toast = useToast();
     const xxx: any = localStorage.getItem("rules");
+
     const accrodionIndex: Ref<number | null> = ref(null);
-    const attributesC: ComputedRef<any> = computed(
+    const attributesComputed: ComputedRef<any> = computed(
       () => JSON.parse(xxx)[store.state.rule.ruleSelected].attributes
     );
-    let attributes: Ref<Array<Attribute>> = ref([]);
+    let attributes: Ref<Array<Attribute>> = ref(attributesComputed.value);
 
     const attributeSelected: ComputedRef<any> = computed(
       () => store.state.rule.attributeSelected
@@ -147,46 +157,29 @@ export default defineComponent({
           uid: uuidv4(),
         },
       ];
-      /* const rule: any = JSON.parse(xxx)[store.state.rule.ruleSelected];
-      alert(JSON.stringify(rule)); */
-      /* attributes.value = [
-        ...rules.value,
-        {
-          name: "Rule " + (rules.value.length + 1),
-          uid: uuidv4(),
-          timestamp: _.now(),
-          attributes: [],
-          decisions: [],
-          permissions: [],
-        },
-      ]; */
-      /* const xx: string = JSON.stringify(rules.value);
-      localStorage.setItem("rules", xx); */
 
       setIndexAttribute(attributes.value.length - 1);
       toast.success("Attribute added successfully!", { timeout: 1500 });
     }
 
-    function saveAttribute() {
+    function saveAttribute(item: number) {
       const xxx: any = localStorage.getItem("rules");
-      const rules: Ref<Array<Rule>> = ref(JSON.parse(xxx));
+      let rules: Ref<Array<Rule>> = ref(JSON.parse(xxx));
 
-      console.log(
+      /* console.log(
         rules.value,
         "r: " + ruleSelected.value,
         "a: " + attributeSelected.value
-      );
+      ); */
 
-      const final = structuredClone([
-        ...rules.value,
-        { ...rules.value[ruleSelected.value], attributes: attributes.value },
-      ]);
-      console.log(final);
+      rules.value[ruleSelected.value].attributes = attributes.value;
 
-      localStorage.setItem("rules", JSON.stringify(final));
+      const xx: Array<Rule> = structuredClone(rules.value);
+      localStorage.setItem("rules", JSON.stringify(xx));
 
-      // localStorage.setItem("rules", {});
-      toast.success("List of attributes saved successfully!");
+      item > 1
+        ? toast.success("All attributes of Rule saved successfully!")
+        : toast.success("Attribute saved successfully!");
     }
 
     function setIndexAttribute(index: number) {
@@ -203,7 +196,7 @@ export default defineComponent({
 
     return {
       attributes,
-      attributesC,
+      attributesComputed,
       ruleSelected,
       attributeSelected,
       accrodionIndex,

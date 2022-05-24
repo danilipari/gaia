@@ -1,3 +1,6 @@
+import { inject } from "vue";
+
+import useRouter from "@/router/index";
 
 export const timestampToDate = (date: number, time: false) => {
   const ISO = new Date(date).toISOString();
@@ -8,4 +11,13 @@ export const timestampToDate = (date: number, time: false) => {
   } else {
     return `${day[2]}/${day[1]}/${day[0]}`;
   }
+}
+
+export const goBack = () => {
+  console.log('back here');
+  useRouter.back();
+}
+
+export const structuredClone = (value: any) => {
+  return JSON.parse(JSON.stringify(value));
 }

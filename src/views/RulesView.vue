@@ -26,12 +26,8 @@
         </div>
       </div>
     </div>
-    <div
-      v-if="ruleSelected !== null"
-      :class="ruleSelected !== null ? 'col' : 'col-4'"
-      @dblclick="showJSONView()"
-    >
-      <div class="d-flex justify-content-between">
+    <div v-if="ruleSelected !== null" :class="ruleSelected !== null ? 'col' : 'col-4'">
+      <div class="d-flex justify-content-between" @dblclick="showJSONView()">
         <h4>Info of Rule</h4>
         <h5>{{ timestampToDate(rules[ruleSelected].timestamp, true) }}</h5>
       </div>
@@ -215,6 +211,8 @@ export default defineComponent({
 
       const xx: string = JSON.stringify(rules.value);
       localStorage.setItem("rules", xx);
+
+      setIndexRule(rules.value.length - 1);
     }
 
     function setRules() {
@@ -240,6 +238,7 @@ export default defineComponent({
       ];
       if (!localStorage.getItem("rules")) {
         rules.value = rulesTemp;
+        localStorage.setItem("rules", JSON.stringify(rulesTemp));
       } else {
         const xxx: any = localStorage.getItem("rules");
         rules.value = JSON.parse(xxx);

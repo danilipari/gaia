@@ -1,7 +1,7 @@
 <template>
   <header class="px-3 py-2">
     <div class="container-fluid">
-      <div class="d-flex flex-wrap align-items-center justify-content-between">
+      <div class="d-flex flex-wrap align-items-center justify-content-around">
         <img
           class="img-fluid"
           src="../../assets/img/logo.png"

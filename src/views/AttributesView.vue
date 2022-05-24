@@ -86,6 +86,7 @@
                   id="name"
                   class="form-control w-25"
                   v-model="attribute.name"
+                  autocomplete="off"
                 />
                 <span class="mx-4">&nbsp;</span>
                 <!-- <label for="type" class="text-success">Select attribute type:</label> -->

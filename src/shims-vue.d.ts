@@ -7,3 +7,5 @@ declare module '*.vue' {
 
 declare module 'lodash'
 declare module 'dayjs'
+declare module 'vue-json-csv'
+declare module 'd3'

@@ -13,7 +13,7 @@
   color: $primary-color;
 }
 
-#rules, #attributes {
+#rules, #attributes, #decisions {
   & .group-list {
     & .group-list-item {
       &:hover, &.active {

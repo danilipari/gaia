@@ -46,7 +46,7 @@ export interface Rule {
   name: string;
   timestamp: number | string;
   attributes: Array<Attribute>;
-  decisions: Array<Condition>;
+  decisions: Array<Decision>;
 
   uid?: string;
   description?: string;
@@ -61,9 +61,9 @@ export interface Attribute {
   global?: boolean;
 }
 
-export interface Condition {
-  all?: Array<Fact | Condition>;
-  any?: Array<Fact | Condition>;
+export interface Decision {
+  all?: Array<Fact | Decision>;
+  any?: Array<Fact | Decision>;
   event: Event;
 }
 

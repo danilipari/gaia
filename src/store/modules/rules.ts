@@ -4,6 +4,7 @@ const rules = createStore({
   state: {
     ruleSelected: Number(null),
     attributeSelected: Number(null),
+    decisionSelected: Number(null),
   },
   mutations: {
     SET_RULE(state, index: number) {

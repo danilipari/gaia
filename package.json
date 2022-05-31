@@ -24,6 +24,7 @@
     "core-js": "^3.8.3",
     "d3": "^7.4.4",
     "d3-fetch": "^3.0.1",
+    "filereader": "^0.10.3",
     "json-rules-engine": "^6.1.2",
     "lodash": "^4.17.21",
     "sass": "^1.51.0",

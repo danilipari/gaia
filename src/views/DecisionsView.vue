@@ -8,7 +8,7 @@
           <div
             :class="
               'group-list-item border rounded p-2 shadow-sm mb-2 text-center title-success ' +
-              (attributeSelected !== null ? 'w-100' : 'w-25')
+              (decisionSelected !== null ? 'w-100' : 'w-25')
             "
             @click="goback()"
           >
@@ -18,7 +18,7 @@
           <div
             :class="
               'mx-2 group-list-item border rounded p-2 shadow-sm mb-2 text-center title-success ' +
-              (attributeSelected !== null ? 'w-100' : 'w-25')
+              (decisionSelected !== null ? 'w-100' : 'w-25')
             "
             @click="addDecision()"
           >
@@ -28,13 +28,34 @@
           <div
             :class="
               'group-list-item border rounded p-2 shadow-sm mb-2 text-center title-success ' +
-              (attributeSelected !== null ? 'w-100' : 'w-25')
+              (decisionSelected !== null ? 'w-100' : 'w-25')
             "
             @click="saveDecision(2)"
           >
             <span>&nbsp;</span> Save all <span class="ms-2">&nbsp;</span>
             <font-awesome-icon :icon="['fas', 'save']" class="fa-x" />
           </div>
+        </div>
+
+        <div
+          :class="
+            'mx-2 group-list-item border rounded p-2 mb-2 ' +
+            (decisionSelected === index ? 'active shadow' : '')
+          "
+          v-for="(decision, index) in decisions"
+          :key="index"
+        >
+          <div>
+            <div class="d-flex justify-content-between" @click="setIndexDecision(index)">
+              {{ JSON.stringify(decision) }}
+            </div>
+          </div>
+        </div>
+
+        <div>
+          here
+          <!--  -->
+          !here
         </div>
       </div>
     </div>
@@ -65,9 +86,8 @@
 </style>
 
 <script lang="ts">
-import { Decision } from "@/assets/interfaces";
+import { Decision, Operators, Rule } from "@/assets/interfaces";
 import { v4 as uuidv4 } from "uuid";
-import * as d3 from "d3";
 import _ from "lodash";
 import { computed, defineComponent, inject, Ref, ref, ComputedRef, onMounted } from "vue";
 import { useToast } from "vue-toastification";
@@ -78,12 +98,10 @@ export default defineComponent({
   created() {
     !localStorage.getItem("user") && this.$router.push("/login");
   },
-  setup(props, context) {
+  setup(_props, _context) {
     const store: any = inject("store");
     const toast = useToast();
     const rules: any = localStorage.getItem("rules");
-
-    /*  */
 
     onMounted(() => {
       /*  */
@@ -107,13 +125,52 @@ export default defineComponent({
     }
 
     function addDecision() {
+      decisions.value = [
+        ...decisions.value,
+        {
+          all: [
+            {
+              fact: "fact",
+              operator: Operators.equal,
+              value: "",
+              uid: uuidv4(),
+              global: false,
+            },
+          ],
+          any: [],
+          event: {
+            type: "",
+            params: {},
+          },
+        },
+      ];
+
+      setIndexDecision(decisions.value.length - 1);
       toast.success("Decision added successfully!", { timeout: 1500 });
     }
 
+    function setIndexDecision(index: number) {
+      store.state.rule.decisionSelected = index;
+
+      accrodionIndex.value === index
+        ? (accrodionIndex.value = null)
+        : (accrodionIndex.value = index);
+    }
+
     function saveDecision(item: number) {
-      item > 1
-        ? toast.success("All decision of Rule saved successfully!")
-        : toast.success("Decision saved successfully!");
+      const xxx: any = localStorage.getItem("rules");
+      let rules: Ref<Array<Rule>> = ref(JSON.parse(xxx));
+
+      rules.value[ruleSelected.value].decisions = decisions.value;
+
+      const xx: Array<Rule> = structuredClone(rules.value);
+      localStorage.setItem("rules", JSON.stringify(xx));
+
+      item === 1
+        ? toast.success("Decision saved successfully!")
+        : item === 2
+        ? toast.success("All decisions of Rule saved successfully!")
+        : toast.info("Decisions of Rule updated successfully!");
     }
 
     return {
@@ -122,6 +179,7 @@ export default defineComponent({
       decisionSelected,
       accrodionIndex,
       rules,
+      setIndexDecision,
       goback,
       addDecision,
       saveDecision,

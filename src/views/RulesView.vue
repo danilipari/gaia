@@ -161,7 +161,7 @@
 import { v4 as uuidv4 } from "uuid";
 import _ from "lodash";
 import { computed, defineComponent, inject, Ref, ref, ComputedRef } from "vue";
-import { timestampToDate } from "../components/shared/utils";
+import { structuredClone, timestampToDate } from "../components/shared/utils";
 import { useToast } from "vue-toastification";
 
 import Codemirror from "codemirror-editor-vue3";
@@ -262,19 +262,27 @@ export default defineComponent({
       }
     }
 
-    function showAlert() {
-      /* this.$swal("test"); */
-    }
-
     function actionRule(type: string) {
-      console.log(type, "actionRule");
-
-      showAlert();
-
-      toast.success("Rule save successfully!");
+      if (type === "save") {
+        const xx: any = localStorage.getItem("rules");
+        const index = JSON.parse(xx).findIndex(
+          (x: any) => x.uid === ruleSelected.value.uid
+        );
+        xx[index] = ruleSelected.value;
+        localStorage.setItem("rules", JSON.stringify(xx));
+        toast.success("Rule save successfully!");
+      } else if (type === "delete") {
+        rules.value = rules.value.filter(
+          (el: any, index: number) => index !== ruleSelected.value
+        );
+        localStorage.setItem("rules", JSON.stringify(rules.value));
+        toast.info("Rule deleted successfully!");
+        console.log(structuredClone(rules.value), ruleSelected.value, "rules");
+      }
+      setIndexRule(null);
     }
 
-    function setIndexRule(index: number) {
+    function setIndexRule(index: number | null) {
       store.state.rule.ruleSelected = index;
       // store.actions.rules.setRule("SET_RULE", index);
     }

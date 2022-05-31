@@ -29,17 +29,18 @@ export enum OperatorsInt {
   GreaterThanInclusive = "greaterThanInclusive"
 }
 
+
 export enum Operators {
-  equal = OperatorsInt.Equal,
-  notEqual = OperatorsInt.NotEqual,
-  in = OperatorsInt.In,
-  notIn = OperatorsInt.NotIn,
-  contains = OperatorsInt.Contains,
-  doesNotContain = OperatorsInt.DoesNotContain,
-  lessThan = OperatorsInt.LessThan,
-  lessThanInclusive = OperatorsInt.LessThanInclusive,
-  greaterThan = OperatorsInt.GreaterThan,
-  greaterThanInclusive = OperatorsInt.GreaterThanInclusive
+  equal=OperatorsInt.Equal,
+  notEqual=OperatorsInt.NotEqual,
+  in=OperatorsInt.In,
+  notIn=OperatorsInt.NotIn,
+  contains=OperatorsInt.Contains,
+  doesNotContain=OperatorsInt.DoesNotContain,
+  lessThan=OperatorsInt.LessThan,
+  lessThanInclusive=OperatorsInt.LessThanInclusive,
+  greaterThan=OperatorsInt.GreaterThan,
+  greaterThanInclusive=OperatorsInt.GreaterThanInclusive,
 }
 
 export interface Rule {
@@ -74,7 +75,7 @@ export interface Event {
 
 export interface Fact {
   fact: string;
-  operator: string;
+  operator: Operators | string;
   value: string;
 
   uid?: string;

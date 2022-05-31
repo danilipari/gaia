@@ -102,7 +102,9 @@
                 </select>
               </div>
               <div class="d-flex justify-content-end mt-5">
-                <button class="btn btn-outline-success">Remove</button>
+                <button class="btn btn-outline-success" @click="removeAttribute()">
+                  Remove
+                </button>
                 <span class="mx-2">&nbsp;</span>
                 <button class="btn btn-success me-5" @click="saveAttribute(1)">
                   Save
@@ -167,28 +169,31 @@ export default defineComponent({
       const xxx: any = localStorage.getItem("rules");
       let rules: Ref<Array<Rule>> = ref(JSON.parse(xxx));
 
-      /* console.log(
-        rules.value,
-        "r: " + ruleSelected.value,
-        "a: " + attributeSelected.value
-      ); */
-
       rules.value[ruleSelected.value].attributes = attributes.value;
 
       const xx: Array<Rule> = structuredClone(rules.value);
       localStorage.setItem("rules", JSON.stringify(xx));
 
-      item > 1
+      item === 1
+        ? toast.success("Attribute saved successfully!")
+        : item === 2
         ? toast.success("All attributes of Rule saved successfully!")
-        : toast.success("Attribute saved successfully!");
+        : toast.info("Attributes of Rule updated successfully!");
     }
 
-    function setIndexAttribute(index: number) {
+    function setIndexAttribute(index: number | null) {
       store.state.rule.attributeSelected = index;
 
       accrodionIndex.value === index
         ? (accrodionIndex.value = null)
         : (accrodionIndex.value = index);
+    }
+
+    function removeAttribute() {
+      attributes.value.splice(attributeSelected.value, 1);
+      setIndexAttribute(null);
+      toast.success("Attribute removed successfully!", { timeout: 1500 });
+      saveAttribute(3);
     }
 
     function goback() {
@@ -205,6 +210,7 @@ export default defineComponent({
       addAttribute,
       setIndexAttribute,
       saveAttribute,
+      removeAttribute,
       goback,
     };
   },

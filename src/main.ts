@@ -10,7 +10,7 @@ import { fab } from '@fortawesome/free-brands-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { GlobalCmComponent } from "codemirror-editor-vue3";
-import JsonCSV from 'vue-json-csv'
+import JsonCSV from 'vue-json-csv';
 
 
 import VueSweetalert2 from 'vue-sweetalert2';
